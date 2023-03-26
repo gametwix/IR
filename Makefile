@@ -17,7 +17,7 @@ build_dictionary: src/dictionary_generator.cpp src/article.hpp src/config.h
 	g++ src/dictionary_generator.cpp -o dictionary_generator
 
 build_reverse_index: src/reverse_index_generator.cpp src/reverse_index.hpp src/dictionary.hpp src/article.hpp src/config.h
-	g++ src/reverse_index_generator.cpp -o reverse_index_generator
+	g++  src/reverse_index_generator.cpp -o reverse_index_generator
 
 build: build_corpus build_dictionary build_reverse_index
 
@@ -31,6 +31,7 @@ generate_dictionary: build_dictionary
 
 generate_reverse_index: build_reverse_index
 	rm -f files/reverse_index/*.ind
+	rm -f files/cord_index/*.ind
 	./reverse_index_generator
 
 generate_all: generate_corpus generate_dictionary generate_reverse_index

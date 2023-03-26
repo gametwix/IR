@@ -15,6 +15,7 @@ void add_words_to_dictionary(std::set<std::string> &dictionary, std::string text
         if(isalnum(c)){
             word += tolower(c);
         }else if(word.length() > 0){
+            
             dictionary.insert(word);
             word.clear();
         }
@@ -55,9 +56,10 @@ int main(){
         }
         
         file.close();
-        break;
+        // break;
     }
     std::cout << "Dictionary size: " << dictionary.size() << " terms" << std::endl;
+    std::cout << dictionary.count("mindvox") << std::endl;
     std::ofstream file;
     file.open(std::string(DICTIONARY_DIR_PATH) + "dictionary.words",std::ios_base::binary);
     save_dictionary(file, dictionary);

@@ -9,8 +9,11 @@
 #include "reverse_index.hpp"
 #include "dictionary.hpp"
 #include "config.h"
+#include "create_indexes.hpp"
+#include "cord_index.hpp"
 
 namespace fs = std::filesystem;
+
 
 
 int main(){
@@ -20,20 +23,26 @@ int main(){
     for (const auto & entry : fs::directory_iterator(CORPUS_DIR_PATH)){
         paths.push_back(entry.path());
     }
-    std::vector<std::vector<size_t>> reverse_index(dicionary.size(), std::vector<size_t>());
+    std::cout << dicionary.size() << std::endl;
+    std::vector<std::unordered_map<size_t, std::vector<size_t>>> cord_index(dicionary.size()+1, std::unordered_map<size_t, std::vector<size_t>>());
+    std::vector<std::vector<size_t>> reverse_index(dicionary.size()+1, std::vector<size_t>());
     std::ifstream file;
     for(const auto &path: paths){
+        // break;
+        std::cout << path << std::endl;
         file.open(path,std::ios_base::binary);
         article wiki_article;
         while(file.peek() != EOF){
             wiki_article = read_article(file);
-            reverse_index_add(reverse_index, dicionary, wiki_article.title, wiki_article.id);
-            reverse_index_add(reverse_index, dicionary, wiki_article.text, wiki_article.id);
+            std::string text = wiki_article.title + " " + wiki_article.text;
+            create_indexes(reverse_index, cord_index, dicionary, text, wiki_article.id);
+            // reverse_index_add(reverse_index, dicionary, text, wiki_article.id);
         }
         file.close();
-        break;
+        //break;
     }
     std::cout << "Save reverse index" << std::endl;
     save_reverse_index(reverse_index);
+    save_cord_index(cord_index);
     return 0;
 }
