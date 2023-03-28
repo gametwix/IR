@@ -27,6 +27,7 @@ int main(){
     std::vector<std::unordered_map<size_t, std::vector<size_t>>> cord_index(dicionary.size()+1, std::unordered_map<size_t, std::vector<size_t>>());
     std::vector<std::vector<size_t>> reverse_index(dicionary.size()+1, std::vector<size_t>());
     std::ifstream file;
+    auto begin = std::chrono::steady_clock::now();
     for(const auto &path: paths){
         // break;
         std::cout << path << std::endl;
@@ -41,6 +42,9 @@ int main(){
         file.close();
         //break;
     }
+    auto end = std::chrono::steady_clock::now();
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
+    std::cout << "The time: " << elapsed_ms.count() << " ms\n";
     std::cout << "Save reverse index" << std::endl;
     save_reverse_index(reverse_index);
     save_cord_index(cord_index);

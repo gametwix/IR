@@ -39,11 +39,13 @@ void save_dictionary(std::ofstream &file, std::set<std::string> &dictionary){
 
 int main(){
     std::cout << "Generate dictionary" << std::endl;
+    
     std::vector<std::string> paths;
     for (const auto & entry : fs::directory_iterator(CORPUS_DIR_PATH)){
         paths.push_back(entry.path());
     }
     std::set<std::string> dictionary;
+    auto begin = std::chrono::steady_clock::now();
     for(const auto &path: paths){
         std::ifstream file;
         file.open(path,std::ios_base::binary);
@@ -58,6 +60,9 @@ int main(){
         file.close();
         // break;
     }
+    auto end = std::chrono::steady_clock::now();
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
+    std::cout << "The time: " << elapsed_ms.count() << " ms\n";
     std::cout << "Dictionary size: " << dictionary.size() << " terms" << std::endl;
     std::cout << dictionary.count("mindvox") << std::endl;
     std::ofstream file;

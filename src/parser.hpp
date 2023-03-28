@@ -389,6 +389,7 @@ std::vector<size_t> run_queue(std::vector<Tocken> queue){
     }
     //std::cout << stack_data.top().size() << std::endl;
     return sort_rank(words,stack_data.top());
+    // sreturn stack_data.top();
 }
 
 std::vector<size_t> sort_rank(std::vector<std::string> words, std::vector<size_t> to_sort){

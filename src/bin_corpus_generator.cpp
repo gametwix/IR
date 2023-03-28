@@ -6,6 +6,7 @@
 
 #include "json.hpp"
 #include "article.hpp"
+#include <chrono>
 
 namespace fs = std::filesystem;
 using json = nlohmann::json;
@@ -33,7 +34,9 @@ int main(int argc,char* argv[]) {
     std::ofstream outfile;
     size_t file_ind = -1;
     std::cout << "Create binary corpus" << std::endl;
+    auto begin = std::chrono::steady_clock::now();
     for(size_t i = 1; i < paths.size(); ++i){
+        // std::cout << paths[i] <<std::endl;
         if((i + 1) % percent_size == 0){
             std::cout << "Total: " << (i + 1) / percent_size * 10 << "%" << std::endl;
         }
@@ -46,6 +49,9 @@ int main(int argc,char* argv[]) {
         article wiki_arcticle = parse_article_json(paths[i], i);
         save_bin_article(outfile, wiki_arcticle);
     }
+    auto end = std::chrono::steady_clock::now();
     outfile.close();
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
+    std::cout << "The time: " << elapsed_ms.count() << " ms\n";
     return 0;
 }

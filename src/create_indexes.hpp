@@ -46,10 +46,10 @@ void create_indexes(std::vector<std::vector<size_t>> &reverse_index,
             reverse_index[dictionary[word]][reverse_index[dictionary[word]].size()-1] != id){
                 reverse_index[dictionary[word]].push_back(id);
             }
-        if(reverse_index[dictionary[word]].size() == 0 || 
-                reverse_index[dictionary[word]][reverse_index[dictionary[word]].size()-1] != id){
-                    reverse_index[dictionary[word]].push_back(id);
-                }
+        // if(reverse_index[dictionary[word]].size() == 0 || 
+        //         reverse_index[dictionary[word]][reverse_index[dictionary[word]].size()-1] != id){
+        //             reverse_index[dictionary[word]].push_back(id);
+        //         }
 
             if(cord_index[dictionary[word]].find(id) == cord_index[dictionary[word]].end()){
                 // std::cout << id << std::endl;
